@@ -11,7 +11,7 @@ function App() {
       fetch(COUNTRIES_URL)
         .then((response) => response.json())
         .then((data) => {
-          setCountries(() => data);
+          setCountries(() => data.slice(0, 20));
         });
     }
 
@@ -22,24 +22,50 @@ function App() {
 
   if (countries.length !== 0) {
     return (
-      <div className="App">
-        {countries.map((country, index) => {
-          //console.log(`${index} country=${country.name}`);
-          return (
-            <div key={country.name} className="country-cotainer">
-              <img
-                src={country.flag}
-                alt={country.name}
-                className="country-flags"
-              />
-              <p>{country.name}</p>
-              <p>{country.population}</p>
-              <p>{country.region}</p>
-              <p>{country.capital}</p>
-            </div>
-          );
-        })}
-      </div>
+      <>
+        <header>
+          <p>
+            <strong>Where in the world?</strong>
+          </p>
+          <button> Dark Mode</button>
+        </header>
+
+        <main>
+          <section className="filter-search">
+            <form>
+              <input placeholder="Search For a Country..." />
+            </form>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              Filter by Region
+            </button>
+          </section>
+
+          <div className="App">
+            {countries.map((country) => {
+              //console.log(`${index} country=${country.name}`);
+              return (
+                <div key={country.name} className="country-cotainer">
+                  <img
+                    src={country.flag}
+                    alt={country.name}
+                    className="country-flags"
+                  />
+                  <p>
+                    <strong>{country.name}</strong>
+                  </p>
+                  <p>Population: {country.population}</p>
+                  <p>Region: {country.region}</p>
+                  <p>Capital: {country.capital}</p>
+                </div>
+              );
+            })}
+          </div>
+        </main>
+      </>
     );
   }
 }
